@@ -8,9 +8,14 @@ from matplotlib.animation import PillowWriter
 
 
 #Генератор списков
-def list_generate(n):
-    lists = [random.randint(0,100) for i in range(n)]
+def list_generate(length):
+    lists = [random.randint(0,100) for i in range(length)]
     return lists
+
+#генератор массив numpy
+def numpy_generate(min_value, max_value, length):
+    array = np.random.randint(min_value, max_value, size=length)
+    return array
 
 #счет времени numpy
 def time_numpy_counter(array1, array2):
@@ -30,10 +35,14 @@ def time_list_counter(array1, array2):
 def task1_counters():
     list_first = list_generate(1000000)
     list_second = list_generate(1000000)
+
     print('Время выполнения со списками: ', time_list_counter(list_first, list_second))
-    array_numpy_first = np.random.randint(1000, size=1_000_000)
-    array_numpy_second = np.random.randint(1000, size=1_000_000)
+    
+    array_numpy_first = numpy_generate(0, 1000, 1000000)
+    array_numpy_second = numpy_generate(0, 1000, 1000000)
+    
     print('Время выполнения с numpy: ', time_numpy_counter(array_numpy_first, array_numpy_second))
+    
     print('Numpy быстрее списка в ', float(time_list_counter(list_first, list_second)) /
           float(time_numpy_counter(array_numpy_first, array_numpy_second)),
           ' раз')
@@ -41,7 +50,7 @@ def task1_counters():
 #2 задание
 def task2_histogram():
     ar = np.genfromtxt('data2.csv', delimiter=',')
-    ar = ar[1:]
+    ar = ar[1:] 
 
     ph = np.array(ar[:, 0], float)
     ph = ph[~np.isnan(ph)]
@@ -58,7 +67,7 @@ def task2_histogram():
 
     plt.show()
 
-
+#3 задание
 def task3_schedule():
     x = np.linspace(-2*np.pi, 2*np.pi, 20)
     y = np.sin(x)*np.cos(x)
@@ -73,6 +82,7 @@ def task3_schedule():
     ax.set_title('3D')
     plt.show()
 
+# дополнительное задание
 def upd_task_animation():
     figure = plt.figure()
     l, = plt.plot([], [], 'k')
